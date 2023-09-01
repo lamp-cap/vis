@@ -1,0 +1,87 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  user-select:none;
+}
+
+.App {
+  text-align: center;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  font-size: 12px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.neighbor:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.container {
+  height: 99%;
+  width: 99.5%;
+  display: grid;
+  grid-gap: 0;
+  padding: 4px;
+  grid-auto-rows: 33.33%;
+  grid-auto-columns: 25%;
+}
+
+.item { 
+  margin: 4px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.item1 {
+  grid-column: 1/span 2;
+  grid-row: 1 / span 2;
+}
+
+.item2 {
+  grid-column: 3/span 2;
+  grid-row: 1 / span 2;
+}
+
+.item3 {
+  grid-column: 1/span 4;
+  grid-row: 3 / span 1;
+}
+
+button {
+  margin: 0 5px;
+  height: 24px;
+  width: 48px;
+  background-color: rgba(0, 0, 0, 0);
+  border: 2px solid #0088f8;
+  color: #0088f8;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  color: #fff;
+  background-color: #0088f8;
+
+}
