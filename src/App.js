@@ -8,6 +8,8 @@ import Authors from './views/authors'
 import React, {useState} from 'react';
 import Drag from './views/dragBox';
 import Detail from './views/detail';
+import ScatterPlot from './views/scatterplot';
+// import BoxPlot from './views/boxPlot';
 
 function App() {
   const [isOpen, setOpen] = useState(false);
@@ -23,7 +25,7 @@ function App() {
           <Viewer open={open} />
         </div>
         <div className="item item2">
-          {/* <Graph /> */}
+          {/* <BoxPlot /> */}
         </div>
         <div className="item item3">
           <Authors />
@@ -43,6 +45,9 @@ function App() {
 
       <Drag style={{width:500,height:400}} name={"Graph"} >
           <Graph /> 
+      </Drag>
+      <Drag style={{width:500,height:400}} name={"ScatterPlot"} >
+          <ScatterPlot /> 
       </Drag>
 
       <Drag style={{width:700,height:300}} name={"Parallel"} >
