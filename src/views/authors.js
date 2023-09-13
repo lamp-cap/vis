@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactEcharts from 'echarts-for-react';
-import * as echarts from 'echarts';
-
-const province = ['广西', '上海', '江苏', '河北', '山西', '江西', '浙江', '意大利', '湖南', '安徽', '福建', '四川', '天津', '山东', '北京', '河南', '湖北', '陕西', '辽宁', '广东', '新疆', '内蒙古', '贵州', '甘肃'];
+import Img from './asd.png'
 
 export default function Graph () {
     const [data, changeData] = useState([]);
@@ -16,18 +14,12 @@ export default function Graph () {
         .then(json=>{
             var res = [];
             for(var i = 0; i < json.length; i++){
-                var pro; 
-                for(var j=0; j<24; j++) {
-                    if (json[i].province === province[j])
-                    {
-                        pro = j;
-                    }
-                }
+                var pro = Math.random() * 10; 
                 var birthTime = parseInt(json[i].birth, 10);
                 var deathTime = parseInt(json[i].death, 10);
                 res[i] = {
                     name: json[i].authorName,
-                    value: [pro, birthTime, deathTime, (deathTime-birthTime),json[i].province,json[i].introduction],
+                    value: [pro, birthTime, deathTime, (deathTime-birthTime),json[i].province, json[i].workNum+1],
                     itemStyle: {
                         normal: {
                             color: "#7b9ce1"
@@ -41,34 +33,57 @@ export default function Graph () {
         // console.log(data)
     }
 
-    function renderItem(params, api) {
+    function renderItem1(params, api) {
         var Index = api.value(0);
         var start = api.coord([api.value(1), Index]);
-        var end = api.coord([api.value(2), Index]);
-        var height = api.size([0, 1])[1] * 0.6;
-        var rectShape = echarts['graphic'].clipRectByRect(
-        {
-            x: start[0],
-            y: start[1] - height / 2,
-            width: end[0] - start[0],
-            height: height
-        },
-        {
-            x: params.coordSys.x,
-            y: params.coordSys.y,
-            width: params.coordSys.width,
-            height: params.coordSys.height
-        }
-        );
+        var end = api.coord([api.value(2), Index + Math.sqrt(api.value(5)) * 0.05]);
+        var width = end[0] - start[0];
+        var height = end[1] - start[1];
+        
         return (
-        rectShape && {
-            type: 'rect',
-            transition: ['shape'],
-            shape: rectShape,
-            style: api.style()
+        {
+          type: 'image',
+          x: start[0],
+          y: start[1],
+          transition: ['shape'],
+          style: {
+            image: Img,
+            x: 0,
+            y: -height/2,
+            width: width,
+            height: height,
+            opacity: 0.5,
+          }
         }
         );
     }
+    function renderItem2(params, api) {
+      var start = api.coord([api.value(1), api.value(0)]);
+      var end = api.coord([api.value(2), api.value(0) + Math.sqrt(api.value(5)) * 0.05]);
+      var width = end[0] - start[0];
+      var height = end[1] - start[1];
+      var radius = height;
+      
+      return (
+      {
+        type: 'circle',
+        x: start[0] + width/2,
+        y: start[1],
+        scaleX: radius* 0.2,
+        scaleY: radius* 0.2,
+        transition: ['shape'],
+        z2: 10,
+        shape: {
+          r: 1,
+        },
+        style: {
+          fill: '#eee',
+          lineWidth: 10,
+          opacity: 0.6,
+        },
+      }
+      );
+  }
 
     const getOption = ()=>{
 
@@ -76,7 +91,7 @@ export default function Graph () {
             tooltip: {
                 trigger: 'item',
                 formatter: function (params) {
-                  return params.marker+params.name+': '+params.value[1]+' - '+params.value[2]+' '+params.value[4];
+                  return params.name+': '+params.value[1]+' - '+params.value[2]+' '+params.value[4];
                 },
                 textStyle: {
                     width: 400,
@@ -86,14 +101,16 @@ export default function Graph () {
               dataZoom: [
                 {
                   type: 'inside',
-                  filterMode: 'filter',
+                  filterMode: 'none',
+                  xAxisIndex: [0],
                   showDataShadow: false,
                   top: 500,
                   labelFormatter: ''
                 },
                 {
-                  type: 'inside',
-                  filterMode: 'weakFilter'
+                  type: 'slider',
+                  filterMode: 'none',
+                  yAxisIndex: [0],
                 }
               ],
               grid: {
@@ -120,7 +137,24 @@ export default function Graph () {
               series: [
                 {
                   type: 'custom',
-                  renderItem: renderItem,
+                  renderItem: renderItem1,
+                  itemStyle: {
+                    opacity: 0.2,
+                    borderColor: '#000',
+                    borderWidth: 1,
+                    borderType: 'solid',
+
+                  },
+                  encode: {
+                    x: [1, 2],
+                    y: 0,
+                    tooltip: 4
+                  },
+                  data: data
+                },
+                {
+                  type: 'custom',
+                  renderItem: renderItem2,
                   itemStyle: {
                     opacity: 0.2,
                     borderColor: '#000',
