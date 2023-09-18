@@ -4,8 +4,8 @@ import Img from './image';
 import Img1 from './neighbor/img5.png';
 
 const Index = (props) => {
-  const { taskList } = useSelector(state => state.counter);
-  var url = taskList;
+  const { imgUrl } = useSelector(state => state.counter);
+  var url = imgUrl;
   const img1Ref = React.useRef(null);
   const img2Ref = React.useRef(null);
   const [drag, switchState] = useState(true);
