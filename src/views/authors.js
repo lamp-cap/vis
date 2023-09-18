@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import Img from './asd.png'
+import { useDispatch } from 'react-redux';
+import { change2 } from "../store/data2";
 
 export default function Graph () {
     const [data, changeData] = useState([]);
     useEffect(()=>{
         initialize();
     },[])
-
+    const dispatch = useDispatch();
     const initialize = ()=> {
         fetch('./assets/authors/authorLife.json')
         .then(res => res.json())
@@ -173,6 +175,13 @@ export default function Graph () {
         };
         return option;
     }
+    const onclick = {
+      'click': (e) => {
+        // console.log(e.data.intro)
+        const action = change2(e.data.intro);
+        dispatch(action)
+      }
+    }
     
   return (
     <>
@@ -181,6 +190,7 @@ export default function Graph () {
         notMerge={true}
         lazyUpdate={true}
         style={{width: '100%',height:'100%'}}
+        onEvents={onclick}
       />
     </>
   )
