@@ -14,7 +14,7 @@ import Img13 from "./76b0ec63eaa23653.jpg";
 import Img14 from "./938ad.jpeg";
 import Img15 from "./fe7ee3de792rk.jpg";
 import { useDispatch } from 'react-redux';
-import { changeTaskList } from "../../store/counterStore"
+import { changeUrl } from "../../store/referImgUrl"
 
 const neighbors = [
   { id: 0, name: '同作者'},
@@ -38,7 +38,7 @@ const examples = [
 export default  function Index () {
   const dispatch = useDispatch()
   function clickEvent (url) {
-    const action = changeTaskList(url);
+    const action = changeUrl(url);
     dispatch(action)
   }
 
