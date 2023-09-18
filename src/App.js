@@ -9,7 +9,9 @@ import React, {useState} from 'react';
 import Drag from './views/dragBox';
 import Detail from './views/detail';
 import ScatterPlot from './views/scatterplot';
-// import BoxPlot from './views/boxPlot';
+import { useDispatch } from 'react-redux';
+import { changeUrl } from "./store/referImgUrl"
+import { useSelector} from 'react-redux';;
 
 function App() {
   const [isOpen, setOpen] = useState(false);
@@ -18,6 +20,9 @@ function App() {
     setOpen(!isOpen);
     infroRef.current.toggle(true);
   }
+  const { dataList1 } = useSelector(state => state.data1);
+  const { dataList2 } = useSelector(state => state.data2);
+  
   return (
     <div className="App">
       <div className='container'>
@@ -25,11 +30,11 @@ function App() {
           <Viewer open={open} />
         </div>
         <div className="item item2">
-          {/* <BoxPlot /> */}
+          {dataList1}<br/>
+          {dataList2}<br/>
         </div>
         <div className="item item3">
           <Authors />
-          
         </div>
       </div>
       
@@ -46,7 +51,7 @@ function App() {
       <Drag style={{width:500,height:400}} name={"Graph"} >
           <Graph /> 
       </Drag>
-      <Drag style={{width:500,height:400}} name={"ScatterPlot"} >
+      <Drag style={{width:500,height:500}} name={"ScatterPlot"} >
           <ScatterPlot /> 
       </Drag>
 
